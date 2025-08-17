@@ -1,8 +1,9 @@
 .footer {
   padding: 1rem 2rem;          /* spacing inside footer */
-  background: #f1f1f1;         /* light gray background */
+  background: #4f7397;            /* light gray background */
   text-align: center;          /* center text */
   margin-top: auto;            /* push footer to bottom */
+  color: white; 
 }
 
 .footer p {

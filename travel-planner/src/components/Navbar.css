@@ -1,7 +1,20 @@
 .navbar {
-  padding: 1rem 2rem;         /* space inside navbar */
-  background: #1976d2;        /* blue background */
+  padding: 0rem 5rem;         /* space inside navbar */
+  background: #4f7397;        /* blue background */
   color: white;               /* white text */
-  font-size: 1.5rem;          /* bigger font */
+  font-size: 1rem;          /* bigger font */
   font-weight: bold;          /* bold text */
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.ul-list{
+  display: flex;
+  gap: 1rem;
+  list-style: none
+}
+
+.li-item{
+  color: white;
 }
