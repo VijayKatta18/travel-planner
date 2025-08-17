@@ -1,12 +1,13 @@
+import "./Layout.css"
 import Footer from "./Footer";
 import Navbar from "./Navbar";
 
 export default function Layout({children}){
  return(
-    <>
+    <div className="layout">
       <Navbar/>
-      <main style={{ padding: "1rem"}}>{children}</main>
+      <main className="main">{children}</main>
       <Footer/>
-    </>
+    </div>
  );
 }

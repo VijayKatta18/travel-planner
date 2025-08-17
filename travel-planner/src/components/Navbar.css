@@ -1,0 +1,7 @@
+.navbar {
+  padding: 1rem 2rem;         /* space inside navbar */
+  background: #1976d2;        /* blue background */
+  color: white;               /* white text */
+  font-size: 1.5rem;          /* bigger font */
+  font-weight: bold;          /* bold text */
+}

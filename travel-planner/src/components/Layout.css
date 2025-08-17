@@ -1,0 +1,10 @@
+.layout {
+  display: flex;               /* flexbox layout */
+  flex-direction: column;      /* stack items vertically */
+  min-height: 100vh;           /* take full screen height */
+}
+
+.main {
+  flex: 1;                     /* grow to take remaining space */
+  padding: 2rem;               /* spacing inside main content */
+}
