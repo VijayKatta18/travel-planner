@@ -1,0 +1,50 @@
+.trip-form {
+  background: #f8f9fa;
+  padding: 20px;
+  margin: 20px 0;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+  display: grid;
+  grid-template-columns: 1fr 1fr auto;
+  gap: 15px;
+  align-items: end;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: bold;
+  margin-bottom: 6px;
+}
+
+.form-group input {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 14px;
+}
+
+.btn {
+  padding: 12px 20px;
+  background-color: #4a90e2;
+  border: none;
+  border-radius: 8px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.btn:hover {
+  background-color: #357abd;
+}
+
+.trips-list {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
