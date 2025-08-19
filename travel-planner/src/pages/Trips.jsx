@@ -1,18 +1,20 @@
-import { Link } from "react-router-dom";
+import TripCard from "../components/TripCard";
+import WelcomeUser from "../components/WelcomeUser";
 
 export default function Trips() {
 
+    // TODO API
     const trips = [
-        { id: 1, name: "Paris" },
-        { id: 2, name: "Goa" }
+        {id: 1, name: "goa", destination: "paris"},
+        {id:2 , name: "dubai", destination : "dubai vacation"}
     ];
 
     return (
-        <>
-            <h1> Trips Page </h1>
-            {trips.map((trip)=>(
-                <li key={trip.id}><Link to={`/trips/${trip.name}`}>{trip.name}</Link></li>
+        <div>
+            <WelcomeUser name="vijay" />
+            {trips.map((trip) => (
+                <TripCard key={trip.id} trip={trip} />
             ))}
-        </>
+        </div>
     );
 }
