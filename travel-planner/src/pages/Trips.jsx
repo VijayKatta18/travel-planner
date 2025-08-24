@@ -1,27 +1,46 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import TripCard from "../components/TripCard";
 import WelcomeUser from "../components/WelcomeUser";
 import "./Trips.css";
 
+
+function tripFormReducer(state, action) {
+  switch (action.type) {
+    case "SET_NAME":
+      return { ...state, name: action.value };
+    case "SET_DESTINATION":
+      return { ...state, destination: action.value };
+    case "RESET":
+      return { name: "", destination: "" };
+    default:
+      return state;
+  }
+}
+
 export default function Trips() {
   const [trips, setTrips] = useState([]);
-  const [name, setName] = useState("");
-  const [destination, setDestination] = useState("");
-
   const [loading, setLoading] = useState(true);
+  const [search, setSearch] = useState("");
+  const inputRef = useRef(null);
 
-  function addTrip(e) {
-    e.preventDefault();  // prevent page refresh
-    if (!name || !destination) return;
+  const [formState, disptach] = useReducer(tripFormReducer, {
+    name: "",
+    destination: ""
+  });
+
+  // ADD
+  const addTrip = (e) => {
+    e.preventDefault();
+    if (!formState.name || !formState.destination) return;
     const newTrip = {
       id: trips.length + 1,
-      name,
-      destination,
+      name: formState.name,
+      destination: formState.destination,
     };
     setTrips([...trips, newTrip]);
-    setName("");
-    setDestination("");
-  }
+    disptach({ type: "RESET" });
+  };
+
 
   // Fetch trips from the APIs
   useEffect(() => {
@@ -41,9 +60,21 @@ export default function Trips() {
       })
   }, []);
 
+  //useMemo concept
+  const filterdTrips = useMemo(() => {
+    return trips.filter((q) =>
+      q.name.toLowerCase().includes(search.toLowerCase()));
+  }, [search, trips]);
+
+
   return (
     <div>
       <WelcomeUser name="vijay" />
+      <h1>Trips</h1>
+
+      {/* Search Bar */}
+      <input ref={inputRef} type="text" value={search} onChange={(e) => setSearch(e.target.value)} />
+      <button onClick={() => inputRef.current.focus()}>Focus Search</button>
 
       {/* Trip Form */}
       <form className="trip-form" onSubmit={addTrip}>
@@ -52,8 +83,8 @@ export default function Trips() {
           <input
             type="text"
             placeholder="Enter trip name"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
+            value={formState.name}
+            onChange={(e) => disptach({ type: "SET_NAME", value: e.target.value })}
           />
         </div>
 
@@ -62,8 +93,8 @@ export default function Trips() {
           <input
             type="text"
             placeholder="Enter destination"
-            value={destination}
-            onChange={(e) => setDestination(e.target.value)}
+            value={formState.destination}
+            onChange={(e) => disptach({ type: "SET_DESTINATION", value: e.target.value })}
           />
         </div>
 
@@ -74,9 +105,9 @@ export default function Trips() {
 
       {/* Trips List */}
       <div className="trips-list">
-        {loading ? ( <span>Loading...</span> ) : ( trips.map((trip) => (
+        {loading ? (<span>Loading...</span>) : (filterdTrips.map((trip) => (
           <TripCard key={trip.id} trip={trip} />
-        )) )}
+        )))}
       </div>
     </div>
   );
