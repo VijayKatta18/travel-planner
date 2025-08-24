@@ -6,6 +6,8 @@ import About from './pages/About';
 import Trips from './pages/Trips';
 import Login from './pages/Login';
 import TripDetails from './pages/TripDetails';
+import ProtectedRoute from './components/ProtectedRoute';
+import Profile from './components/Profile';
 
 function App() {
   return (
@@ -17,6 +19,14 @@ function App() {
         <Route path="/trips" element={<Trips/>}></Route>
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/trips/:name" element={<TripDetails/>}></Route>
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
       </Routes>
     </Layout>
     </>
