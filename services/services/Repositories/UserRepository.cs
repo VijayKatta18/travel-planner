@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using services.Data;
 using services.Entities;
+using services.Models;
 using services.Repositories.Interfaces;
 
 namespace services.Repositories
@@ -18,5 +19,22 @@ namespace services.Repositories
         }
 
         public Task<User?> GetByIdAsync(int id) => db.Users.FindAsync(id).AsTask();
+
+        public Task<List<User>> GetMyUsersAsync()
+        {
+            return db.Users.ToListAsync();
+        }
+
+        public async Task UpdateAsync(User existing)
+        {
+            db.Entry(existing).State = EntityState.Modified;
+            await db.SaveChangesAsync();
+        }
+
+        public async Task DeleteAsync(User existing)
+        {
+            db.Users.Remove(existing);
+            await db.SaveChangesAsync();
+        }
     }
 }
