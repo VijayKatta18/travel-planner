@@ -1,2 +1,21 @@
 node_modules/
 dist/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.sqlite
+*.vscode/
+
+# Build outputs
+bin/
+obj/
+*.dll
+*.exe
+*.pdb
+*.cache
+
+# Other temporary files
+*.log
+*.vsidx
