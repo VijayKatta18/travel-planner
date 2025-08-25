@@ -21,6 +21,7 @@ export default function Navbar() {
             <Link to="/" className="li-item">Home</Link>
           </li>
 
+
           {isLoggedIn && (
             <>
               <li>
@@ -37,6 +38,10 @@ export default function Navbar() {
               <Link to="/login" className="li-item">Login</Link>
             </li>
           )}
+
+          <li>
+            <Link to="/profile" className="li-item">Profile</Link>
+          </li>
         </ul>
       </div>
 

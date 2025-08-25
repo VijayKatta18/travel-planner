@@ -12,23 +12,23 @@ import Profile from './components/Profile';
 function App() {
   return (
     <>
-    <Layout>
-      <Routes>
-        <Route path="/" element={<Home/>}></Route>
-        <Route path="/about" element={<About/>}></Route>
-        <Route path="/trips" element={<Trips/>}></Route>
-        <Route path="/login" element={<Login/>}></Route>
-        <Route path="/trips/:name" element={<TripDetails/>}></Route>
-        <Route
-          path="/profile"
-          element={
-            <ProtectedRoute>
-              <Profile />
-            </ProtectedRoute>
-          }
-        />
-      </Routes>
-    </Layout>
+      <Layout>
+        <Routes>
+          <Route path="/" element={<Home />}></Route>
+          <Route path="/about" element={<ProtectedRoute>  <About /> </ProtectedRoute>}></Route>
+          <Route path="/trips" element={<ProtectedRoute> <Trips /> </ProtectedRoute>}></Route>
+          <Route path="/login" element={<Login />}></Route>
+          <Route path="/trips/:name" element={<ProtectedRoute> <TripDetails /> </ProtectedRoute>}></Route>
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
+        </Routes>
+      </Layout>
     </>
   );
 }
