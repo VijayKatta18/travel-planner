@@ -1,11 +1,11 @@
 import React from 'react'
+import { useSelector } from 'react-redux';
 import { Navigate, useLocation } from "react-router-dom";
-import { useAuth } from '../context/AuthContext'
 
 export default function ProtectedRoute({children}) {
-    const { isLoggedIn } = useAuth();
+    const user = useSelector((s) => s.auth.user);
     const location = useLocation();
-    if(!isLoggedIn)
+    if(!user)
     {
         return <Navigate to="/login" replace state={{form: location.pathname}}></Navigate>
     }

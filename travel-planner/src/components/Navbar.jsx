@@ -1,10 +1,16 @@
 import { Link, useNavigate } from "react-router-dom";
 import "./Navbar.css";
-import { useAuth } from "../context/AuthContext";
+import { useDispatch, useSelector } from "react-redux";
+import { logout } from "../store/authSlice";
 
 export default function Navbar() {
-  const { user, isLoggedIn, logout } = useAuth();
+  // const { user, isLoggedIn, logout } = useAuth();
+
+  const user = useSelector((state) => state.auth.user);
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  const isLoggedIn = !!user?.isAuthenticated;
 
   return (
     <nav className="navbar">
@@ -41,7 +47,7 @@ export default function Navbar() {
             <button
               style={{ marginLeft: "10px" }}
               onClick={() => {
-                logout();
+                dispatch(logout())
                 navigate("/login");
               }}
             >
