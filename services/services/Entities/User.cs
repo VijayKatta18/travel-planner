@@ -7,8 +7,14 @@ namespace services.Entities
         [JsonPropertyName("id")]
         public int Id { get; set; }
 
-        [JsonPropertyName("username")]
-        public string Username { get; set; } = default!;
+        [JsonPropertyName("userId")]
+        public string UserId { get; set; } = default!;
+
+        [JsonPropertyName("firstName")]
+        public string? FirstName { get; set; }
+
+        [JsonPropertyName("lastName")]
+        public string? LastName { get; set; }
 
         [JsonPropertyName("email")]
         public string Email { get; set; } = default!;

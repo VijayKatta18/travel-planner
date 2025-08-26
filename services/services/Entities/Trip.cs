@@ -19,11 +19,10 @@ namespace services.Entities
         [JsonPropertyName("budget")]
         public decimal Budget { get; set; }
 
-        [JsonPropertyName("userId")]
-        public int UserId { get; set; }
+        [JsonPropertyName("nights")]
+        public string? Nights { get; set; }
 
-        [JsonPropertyName("user")]
-        public User User { get; set; } = default!;
-
+        [JsonPropertyName("description")]
+        public string? Description { get; set; }
     }
 }

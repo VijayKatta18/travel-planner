@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using services.Entities;
+using services.Models;
 using services.Services.Interfaces;
 
 namespace services.Controllers
@@ -22,6 +23,21 @@ namespace services.Controllers
         {
             var res = await user.AddAsync(dto);
             return CreatedAtAction(nameof(GetMine), new { id = res.Id }, res);
+        }
+
+        [HttpPut("{id}")]
+        public async Task<IActionResult> Update(int id, User dto)
+        {
+            if (id != dto.Id) return BadRequest("ID mismatch.");
+            await user.UpdateAsync(id, dto);
+            return NoContent();
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(int id)
+        {
+            await user.DeleteAsync(id);
+            return NoContent();
         }
 
     }

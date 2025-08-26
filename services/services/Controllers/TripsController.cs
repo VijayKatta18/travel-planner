@@ -19,14 +19,14 @@ namespace services.Controllers
         [HttpGet]
         public async Task<ActionResult<List<Trip>>> GetMine()
         {
-            var res = await trips.GetMyTripsAsync(CurrentUserId);
+            var res = await trips.GetMyTripsAsync();
             return Ok(res);
         }
 
         [HttpPost]
         public async Task<ActionResult<Trip>> Create(Trip dto)
         {
-            var res = await trips.CreateAsync(CurrentUserId, dto);
+            var res = await trips.CreateAsync(dto);
             return CreatedAtAction(nameof(GetMine), new { id = res.Id }, res);
         }
 
@@ -34,14 +34,14 @@ namespace services.Controllers
         public async Task<IActionResult> Update(int id, Trip dto)
         {
             if (id != dto.Id) return BadRequest("ID mismatch.");
-            await trips.UpdateAsync(CurrentUserId, dto);
+            await trips.UpdateAsync(dto);
             return NoContent();
         }
 
         [HttpDelete("{id}")]
         public async Task<IActionResult> Delete(int id)
         {
-            await trips.DeleteAsync(CurrentUserId, id);
+            await trips.DeleteAsync(id);
             return NoContent();
         }
 

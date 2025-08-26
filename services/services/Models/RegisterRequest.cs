@@ -4,8 +4,11 @@ namespace services.Models
 {
     public class RegisterRequest
     {
-        [JsonPropertyName("username")]
-        public string Username { get; set; } = default!;
+        [JsonPropertyName("firstName")]
+        public string? FirstName { get; set; }
+
+        [JsonPropertyName("lastName")]
+        public string? LastName { get; set; }
 
         [JsonPropertyName("email")]
         public string Email { get; set; } = default!;

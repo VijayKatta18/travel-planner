@@ -15,14 +15,19 @@ namespace services.Services
     {
         public async Task<AuthResponse> RegisterAsync(Models.RegisterRequest req)
         {
-            var existing = await users.GetByUsernameAsync(req.Username);
-            if (existing != null)
+            var existing = await users.GetMyUsersAsync();
+            if (existing.Any() && existing.Any(u => u.Email == req.Email))
                 throw new InvalidOperationException("Username already exists.");
+
+            string userId = string.Empty;
+            userId = GenerateUserId(req, existing);
 
             var user = new User
             {
-                Username = req.Username,
+                FirstName = req.FirstName,
+                LastName = req.LastName,    
                 Email = req.Email,
+                UserId = userId,    
                 Password = BCrypt.Net.BCrypt.HashPassword(req.Password)
             };
             await users.AddAsync(user);
@@ -30,13 +35,37 @@ namespace services.Services
             return GenerateToken(user, cfg);
         }
 
+        private string GenerateUserId(Models.RegisterRequest req, List<User> existing)
+        {
+            if (string.IsNullOrWhiteSpace(req.FirstName) || string.IsNullOrWhiteSpace(req.LastName))
+                throw new ArgumentException("First name and last name are required");
+
+            var baseUserId = $"{req.FirstName.ToLower()}_{req.LastName[0].ToString().ToLower()}";
+
+            if (!existing.Any(u => u.UserId.Equals(baseUserId, StringComparison.OrdinalIgnoreCase)))
+                return baseUserId;
+
+            int counter = 1;
+            string newUserId;
+            do
+            {
+                newUserId = $"{baseUserId}{counter}";
+                counter++;
+            }
+            while (existing.Any(u => u.UserId.Equals(newUserId, StringComparison.OrdinalIgnoreCase)));
+
+            return newUserId;
+        }
+
+
         public async Task<AuthResponse> LoginAsync(Models.LoginRequest req)
         {
-            var user = await users.GetByUsernameAsync(req.Username);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(req.Password, user.Password))
+            var user = await users.GetMyUsersAsync();
+            var loggedUser = user.Where(u => u.Email == req.Email).FirstOrDefault();
+            if (user == null || !BCrypt.Net.BCrypt.Verify(req.Password, loggedUser.Password))
                 throw new UnauthorizedAccessException("Invalid credentials.");
 
-            return GenerateToken(user, cfg);
+            return GenerateToken(loggedUser, cfg);
         }
 
         private AuthResponse GenerateToken(User user, IConfiguration cfg)
@@ -47,7 +76,7 @@ namespace services.Services
             var claims = new[]
            {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-                new Claim(JwtRegisteredClaimNames.UniqueName, user.Username),
+                new Claim(JwtRegisteredClaimNames.UniqueName, user.UserId),
                 new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                 // add roles here if needed
             };
@@ -64,7 +93,7 @@ namespace services.Services
 
             return new AuthResponse
             {
-                Username = user.Username,
+                UserId = user.UserId,
                 Token = new JwtSecurityTokenHandler().WriteToken(token),
                 ExpiresAt = token.ValidTo
             };

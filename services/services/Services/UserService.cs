@@ -19,17 +19,17 @@ namespace services.Services
         public async Task UpdateAsync(int userId, User dto)
         {
             var existing = await repo.GetByIdAsync(dto.Id);
-            if (existing == null) throw new KeyNotFoundException("Trip not found.");
+            if (existing == null) throw new KeyNotFoundException("User not found.");
 
             existing.Email = dto.Email;
-            existing.Username = dto.Username;
+            existing.UserId = dto.UserId;
             await repo.UpdateAsync(existing);
         }
 
         public async Task DeleteAsync(int id)
         {
             var existing = await repo.GetByIdAsync(id);
-            if (existing == null) throw new KeyNotFoundException("Trip not found.");
+            if (existing == null) throw new KeyNotFoundException("User not found.");
             await repo.DeleteAsync(existing);
         }
     }

@@ -8,8 +8,6 @@ namespace services.Repositories
 {
     public class UserRepository(AppDbContext db) : IUserRepository
     {
-        public Task<User?> GetByUsernameAsync(string username) =>
-            db.Users.FirstOrDefaultAsync(u => u.Username == username);
             
         public async Task<User> AddAsync(User user)
         {

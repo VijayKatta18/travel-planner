@@ -6,9 +6,9 @@ namespace services.Services
 {
     public class TripService(ITripRepository repo) : ITripService
     {
-        public async Task<List<Trip>> GetMyTripsAsync(int userId)
+        public async Task<List<Trip>> GetMyTripsAsync()
         {
-            var trips = await repo.GetByUserAsync(userId);
+            var trips = await repo.GetByUserAsync();
             return trips.Select(t => new Trip
             {
                 Id = t.Id,
@@ -19,11 +19,10 @@ namespace services.Services
             }).ToList();
         }
 
-        public async Task<Trip> CreateAsync(int userId, Trip dto)
+        public async Task<Trip> CreateAsync(Trip dto)
         {
             var entity = new Trip
             {
-                UserId = userId,
                 Destination = dto.Destination,
                 StartDate = dto.StartDate,
                 EndDate = dto.EndDate,
@@ -40,9 +39,9 @@ namespace services.Services
             };
         }
 
-        public async Task UpdateAsync(int userId, Trip dto)
+        public async Task UpdateAsync(Trip dto)
         {
-            var existing = await repo.GetByIdAsync(dto.Id, userId);
+            var existing = await repo.GetByIdAsync(dto.Id);
             if (existing == null) throw new KeyNotFoundException("Trip not found.");
 
             existing.Destination = dto.Destination;
@@ -53,9 +52,9 @@ namespace services.Services
             await repo.UpdateAsync(existing);
         }
 
-        public async Task DeleteAsync(int userId, int id)
+        public async Task DeleteAsync(int id)
         {
-            var existing = await repo.GetByIdAsync(id, userId);
+            var existing = await repo.GetByIdAsync(id);
             if (existing == null) throw new KeyNotFoundException("Trip not found.");
             await repo.DeleteAsync(existing);
         }

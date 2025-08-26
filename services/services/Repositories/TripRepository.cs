@@ -7,11 +7,11 @@ namespace services.Repositories
 {
     public class TripRepository(AppDbContext db) : ITripRepository
     {
-        public Task<List<Trip>> GetByUserAsync(int userId) =>
-            db.Trips.Where(t => t.UserId == userId).ToListAsync();
+        public Task<List<Trip>> GetByUserAsync() =>
+            db.Trips.ToListAsync();
 
-        public Task<Trip?> GetByIdAsync(int id, int userId) =>
-            db.Trips.FirstOrDefaultAsync(t => t.Id == id && t.UserId == userId);
+        public Task<Trip?> GetByIdAsync(int id) =>
+            db.Trips.FirstOrDefaultAsync(t => t.Id == id);
 
         public async Task<Trip> AddAsync(Trip trip)
         {
