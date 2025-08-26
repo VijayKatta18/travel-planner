@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
+import { useDispatch } from "react-redux";
+import { loginSuccess } from "../store/authSlice";
 
 export default function Login() {
     const [email, setEmail] = useState("");
@@ -8,13 +10,14 @@ export default function Login() {
     const navigate = useNavigate();
     const location = useLocation();
     const redirectTo = location.state?.from || "/";
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         try{
             const { token, userId } = await login({email, password});
-            console.log("Logged in user:", userId);
-            console.log("Token:", token);
+            // redux pass info to store using defined function in store
+            dispatch(loginSuccess({token, userId}));
             navigate(redirectTo, { replace: true });
         }
         catch (err){

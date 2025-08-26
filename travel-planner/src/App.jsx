@@ -7,20 +7,25 @@ import Trips from './pages/Trips';
 import Login from './pages/Login';
 import TripDetails from './pages/TripDetails';
 import Profile from './components/Profile';
+import ProtectedRoute from './components/ProtectedRoute';
 
 function App() {
   return (
     <>
-      <Layout>
-        <Routes>
-          <Route path="/" element={<Home />}></Route>
-          <Route path="/about" element={ <About /> }></Route>
-          <Route path="/trips" element={<Trips />}></Route>
-          <Route path="/login" element={<Login />}></Route>
-          <Route path="/trips/:name" element={ <TripDetails /> }></Route>
-          <Route path="/profile" element={<Profile />} ></Route>
-        </Routes>
-      </Layout>
+      <Routes>
+        {/* Public */}
+        <Route path="/login" element={<Login />} />
+
+        {/* Protected */}
+        <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
+          <Route index element={<Home />} />
+          <Route path="about" element={<About />} />
+          <Route path="trips" element={ <Trips /> } />
+          <Route path="trips/:name" element={<TripDetails />} />
+          <Route path="profile" element={<Profile />} />
+        </Route>
+
+      </Routes>
     </>
   );
 }

@@ -1,9 +1,12 @@
 import { Link } from "react-router-dom";
 import { FaHome, FaInfoCircle, FaPlane, FaUser, FaSignInAlt, FaBars } from "react-icons/fa";
 import "./Sidebar.css";
+import { useDispatch } from "react-redux";
+import { logout } from "../store/authSlice";
 
 export default function Sidebar({ isOpen, setIsOpen }) {
     const toggleSidebar = () => setIsOpen(!isOpen);
+    const dispatch = useDispatch();
 
     return (
         <aside className={`sidebar ${isOpen ? "open" : "closed"}`}>
@@ -33,15 +36,15 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/login">
-                        <FaSignInAlt className="icon" />
-                        {isOpen && <span>Login</span>}
-                    </Link>
-                </li>
-                <li>
                     <Link to="/profile">
                         <FaUser className="icon" />
                         {isOpen && <span>Profile</span>}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/login" onClick={() => dispatch(logout())}>
+                        <FaSignInAlt className="icon" />
+                        {isOpen && <span>Logout</span>}
                     </Link>
                 </li>
             </ul>
