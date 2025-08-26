@@ -1,10 +1,42 @@
 .layout {
-  display: flex;               /* flexbox layout */
-  flex-direction: column;      /* stack items vertically */
-  min-height: 100vh;           /* take full screen height */
+  display: flex;
+  min-height: 100vh;
 }
 
+/* Sidebar fixed */
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  background: #4f7397;
+  color: white;
+  overflow-y: auto;
+  transition: width 0.3s ease;
+}
+
+/* Sidebar widths */
+.sidebar.open {
+  width: 165px;
+}
+
+.sidebar.closed {
+  width: 70px;
+}
+
+/* Main should adjust based on sidebar state */
 .main {
-  flex: 1;                     /* grow to take remaining space */
-  padding: 2rem;               /* spacing inside main content */
+  flex: 1;
+  padding: 2rem;
+  background: #f9f9f9;
+  min-height: 100vh;
+  transition: margin-left 0.3s ease;
+}
+
+.main.shifted-open {
+  margin-left: 165px;   /* sidebar open */
+}
+
+.main.shifted-closed {
+  margin-left: 70px;    /* sidebar closed */
 }

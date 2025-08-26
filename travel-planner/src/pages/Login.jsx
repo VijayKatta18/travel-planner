@@ -1,21 +1,25 @@
 import { useState } from "react";
-import { useAuth } from "../context/AuthContext";
 import { useLocation, useNavigate } from "react-router-dom";
-import { login } from "../store/authSlice";
-import { useDispatch } from "react-redux";
+import { login } from "../services/authService";
 
 export default function Login() {
-    const dispatch = useDispatch();
-    const [username, setUsername] = useState("");
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
     const navigate = useNavigate();
     const location = useLocation();
     const redirectTo = location.state?.from || "/";
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
-        if (!username.trim()) return;
-        dispatch(login(username.trim()));
-        navigate(redirectTo, { replace: true });
+        try{
+            const { token, userId } = await login({email, password});
+            console.log("Logged in user:", userId);
+            console.log("Token:", token);
+            navigate(redirectTo, { replace: true });
+        }
+        catch (err){
+            console.error(err.message);            
+        }
     };
 
     return (
@@ -23,11 +27,17 @@ export default function Login() {
             <h1>Login</h1>
             <form onSubmit={handleSubmit} style={{ display: "grid", gap: "0.5rem", maxWidth: 320 }}>
                 <input
-                    placeholder="Enter username"
-                    value={username}
-                    onChange={(e) => setUsername(e.target.value)}
+                    placeholder="Enter Email"
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                 />
-                <button type="submit">Sign In</button>
+                <input
+                    type="password"
+                    placeholder="Password"
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                />
+                <button type="submit">Login</button>
             </form>
         </div>
     );

@@ -1,44 +1,31 @@
-import { useEffect, useMemo, useReducer, useRef, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import TripCard from "../components/TripCard";
 import WelcomeUser from "../components/WelcomeUser";
 import "./Trips.css";
 
 
-function tripFormReducer(state, action) {
-  switch (action.type) {
-    case "SET_NAME":
-      return { ...state, name: action.value };
-    case "SET_DESTINATION":
-      return { ...state, destination: action.value };
-    case "RESET":
-      return { name: "", destination: "" };
-    default:
-      return state;
-  }
-}
-
 export default function Trips() {
   const [trips, setTrips] = useState([]);
   const [loading, setLoading] = useState(true);
   const [search, setSearch] = useState("");
-  const inputRef = useRef(null);
+  const [name, setName] = useState("");
+  const [destination, setDestination] = useState("");
 
-  const [formState, disptach] = useReducer(tripFormReducer, {
-    name: "",
-    destination: ""
-  });
+  const inputRef = useRef(null);
+  
 
   // ADD
   const addTrip = (e) => {
     e.preventDefault();
-    if (!formState.name || !formState.destination) return;
+    if (!name || !destination) return;
     const newTrip = {
       id: trips.length + 1,
-      name: formState.name,
-      destination: formState.destination,
+      name: name,
+      destination: destination,
     };
     setTrips([...trips, newTrip]);
-    disptach({ type: "RESET" });
+    setName("");
+    setDestination("");
   };
 
 
@@ -83,8 +70,8 @@ export default function Trips() {
           <input
             type="text"
             placeholder="Enter trip name"
-            value={formState.name}
-            onChange={(e) => disptach({ type: "SET_NAME", value: e.target.value })}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
           />
         </div>
 
@@ -93,8 +80,8 @@ export default function Trips() {
           <input
             type="text"
             placeholder="Enter destination"
-            value={formState.destination}
-            onChange={(e) => disptach({ type: "SET_DESTINATION", value: e.target.value })}
+            value={destination}
+            onChange={(e) => setDestination(e.target.destination)}
           />
         </div>
 
