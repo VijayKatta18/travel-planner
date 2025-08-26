@@ -21,9 +21,7 @@ namespace services.Services
             var existing = await repo.GetByIdAsync(dto.Id);
             if (existing == null) throw new KeyNotFoundException("User not found.");
 
-            existing.Email = dto.Email;
-            existing.UserId = dto.UserId;
-            await repo.UpdateAsync(existing);
+            await repo.UpdateAsync(dto);
         }
 
         public async Task DeleteAsync(int id)
