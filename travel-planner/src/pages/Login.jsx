@@ -4,30 +4,45 @@ import { login } from "../services/authService";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
 import "./Login.css";
+import { FaSpinner } from "react-icons/fa";
+import { toast, ToastContainer } from "react-toastify";
 
 export default function Login() {
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [rememberMe, setRememberMe] = useState(false);
-    const navigate = useNavigate();
-    const location = useLocation();
-    const redirectTo = location.state?.from || "/";
-    const dispatch = useDispatch();
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [rememberMe, setRememberMe] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const redirectTo = location.state?.from || "/";
+  const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
-    const handleSubmit = async (e) => {
-        e.preventDefault();
-        try{
-            const { token, userId } = await login({email, password});
-            // redux pass info to store using defined function in store
-            dispatch(loginSuccess({token, userId, rememberMe}));
-            navigate(redirectTo, { replace: true });
-        }
-        catch (err){
-            console.error(err.message);            
-        }
-    };
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setLoading(true);
+    try {
+      const { token, userId } = await login({ email, password });
+      // redux "pass info to store using defined function in store"
+      dispatch(loginSuccess({ token, userId, rememberMe }));
+      toast.success("🎉 Login successful!",{
+        position: "top-center",
+        autoClose: 1000
+      })
 
-    return (
+      setTimeout(() => {
+        navigate(redirectTo, { replace: true });
+      }, 1100);
+      
+    }
+    catch (err) {
+      console.error(err.message);
+    }
+    finally {
+      setLoading(false);
+    }
+  };
+
+  return (
     <div className="login-background">
       <div className="login-card">
         <h1 className="login-title">LOGIN</h1>
@@ -61,7 +76,13 @@ export default function Login() {
             />
             <label htmlFor="rememberMe">Remember me</label>
           </div>
-          <button type="submit" className="login-btn">LOGIN</button>
+          <button type="submit" className="login-btn" disabled={loading}>
+            {loading ? (
+              <FaSpinner className="spinner" />
+            ) : (
+              "LOGIN"
+            )}
+          </button>
         </form>
         <div className="login-or">
           <span>Or login with</span>
@@ -78,6 +99,7 @@ export default function Login() {
           Not a member? <Link to="/register">Register</Link>
         </div>
       </div>
+      <ToastContainer />
     </div>
   );
 }
