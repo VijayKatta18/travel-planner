@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
@@ -75,7 +75,7 @@ export default function Login() {
           </button>
         </div>
         <div className="signup-link">
-          Not a member? <a href="/register">Register</a>
+          Not a member? <Link to="/register">Register</Link>
         </div>
       </div>
     </div>

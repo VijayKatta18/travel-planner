@@ -1,4 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { Navigate } from "react-router-dom";
 
 let savedAuth = null;
 
@@ -36,6 +37,9 @@ const authSlice = createSlice({
         sessionStorage.setItem("auth", data);
       }
     },
+    registerSuccess: (state, action) => {
+      const {token, userId} = action.payload;
+    },
     logout: (state) => {
       state.token = null;
       state.userId = null;
@@ -46,5 +50,5 @@ const authSlice = createSlice({
   }
 });
 
-export const { loginSuccess, logout } = authSlice.actions;
+export const { loginSuccess, logout, registerSuccess } = authSlice.actions;
 export default authSlice.reducer;

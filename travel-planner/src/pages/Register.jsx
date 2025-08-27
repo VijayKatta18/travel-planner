@@ -1,13 +1,27 @@
 import React, { useState } from 'react'
 import "./Register.css";
+import { Link, useNavigate } from 'react-router-dom';
+import { register } from '../services/authService';
+import { useDispatch } from 'react-redux';
 
 export default function Register() {
     const [firstName, setFirstName] = useState("");
     const [lastName, setLastName] = useState("");
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const navigate = useNavigate();
+    
+    const dispatch = useDispatch();
     const handleSubmit = async (e) => {
-        e.prevenDefault();
+        e.preventDefault();
+        try {
+           const {token, userId} = await register({firstName, lastName, email, password});
+           //dispatch(registerSuccess({token, userId}));
+           navigate("/login", { replace: true });
+        }
+        catch (err) {
+            console.error(err.message);
+        }
 
     }
 
@@ -58,7 +72,7 @@ export default function Register() {
                     </div>
                     <button type="submit" className="login-btn">Register</button>
                     <div className="signup-link">
-                         Member? <a href="/login">Login</a>
+                        Member? <Link to="/login">Login</Link>
                     </div>
                 </form>
             </div>
