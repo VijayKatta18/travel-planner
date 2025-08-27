@@ -38,6 +38,7 @@
     color: white;
     font-size: 1.4rem;
     cursor: pointer;
+    padding-left: 16px;
 }
 
 .sidebar-list {

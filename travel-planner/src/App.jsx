@@ -8,6 +8,7 @@ import Login from './pages/Login';
 import TripDetails from './pages/TripDetails';
 import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
+import Register from './pages/Register';
 
 function App() {
   return (
@@ -15,6 +16,7 @@ function App() {
       <Routes>
         {/* Public */}
         <Route path="/login" element={<Login />} />
+        <Route path="/register" element={<Register />} />
 
         {/* Protected */}
         <Route element={<ProtectedRoute><Layout /></ProtectedRoute>}>
