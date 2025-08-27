@@ -1,9 +1,7 @@
 import React, { useEffect, useReducer, useState } from 'react';
 import { addUser, deleteUser, getUsers } from '../services/userService';
-import { FaChevronCircleDown, FaEdit, FaRemoveFormat, FaUser } from 'react-icons/fa';
+import { FaEdit, FaEye, FaTrash, FaUser } from 'react-icons/fa';
 import "./Users.css";
-import { FaUsersViewfinder } from 'react-icons/fa6';
-import { FcDeleteRow } from 'react-icons/fc';
 
 
 const initialState = {
@@ -124,11 +122,19 @@ export default function Users() {
                     <span className="user-name">{u.firstName} {u.lastName}</span>
                   </td>
                   <td>{u.email}</td>
-                  <td>
-                    <span ><FaEdit /></span>
-                    <span ><FaChevronCircleDown /></span>
-                    <span onClick={() => deleteData(u.id)}><FaRemoveFormat /></span>
+                  <td className="action-buttons">
+                    <button className="btn view-btn">
+                      <FaEye /> View
+                    </button>
+                    <button className="btn edit-btn">
+                      <FaEdit /> Edit
+                    </button>
+                    <button className="btn delete-btn" onClick={() => deleteData(u.id)}>
+                      <FaTrash /> Delete
+                    </button>
                   </td>
+
+
                 </tr>
               ))}
             </tbody>

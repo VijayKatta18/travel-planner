@@ -238,3 +238,48 @@
   background: #ddd;
 }
 
+
+.action-buttons {
+  display: flex;
+  gap: 8px;
+}
+
+.btn {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  padding: 6px 10px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 14px;
+  font-weight: 500;
+  transition: background 0.2s ease-in-out;
+}
+
+.view-btn {
+  background: #e8f5e9;
+  color: #388e3c;
+}
+.view-btn:hover {
+  background: #c8e6c9;
+}
+
+.edit-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+}
+.edit-btn:hover {
+  background: #bbdefb;
+}
+
+.delete-btn {
+  background: #ffebee;
+  color: #d32f2f;
+}
+.delete-btn:hover {
+  background: #ffcdd2;
+}
+
+
+
