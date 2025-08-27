@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { FaHome, FaInfoCircle, FaPlane, FaUser, FaSignInAlt, FaBars } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaPlane, FaUser, FaSignInAlt, FaBars, FaUsers } from "react-icons/fa";
 import "./Sidebar.css";
 import { useDispatch } from "react-redux";
 import { logout } from "../store/authSlice";
@@ -39,6 +39,12 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     <Link to="/profile">
                         <FaUser className="icon" />
                         {isOpen && <span>Profile</span>}
+                    </Link>
+                </li>
+                <li>
+                    <Link to="/users">
+                        <FaUsers className="icon" />
+                        {isOpen && <span>Users</span>}
                     </Link>
                 </li>
                 <li>

@@ -9,6 +9,7 @@ import TripDetails from './pages/TripDetails';
 import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
 import Register from './pages/Register';
+import Users from './pages/Users';
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           <Route path="trips" element={ <Trips /> } />
           <Route path="trips/:name" element={<TripDetails />} />
           <Route path="profile" element={<Profile />} />
+          <Route path="/users" element={<Users />} />
         </Route>
 
       </Routes>
