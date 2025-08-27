@@ -1,24 +1,69 @@
-import React, { useState } from 'react'
+import React, { useReducer, useState } from 'react'
 import "./Register.css";
 import { Link, useNavigate } from 'react-router-dom';
 import { register } from '../services/authService';
 import { FaSpinner } from 'react-icons/fa';
 import { toast, ToastContainer } from 'react-toastify';
 
+const initialState = {
+    firstName: "",
+    lastName: "",
+    email: "",
+    password: "",
+    loading: false,
+    error: null,
+};
+
+function reducer(state, action){
+    switch(action.type){
+        case "FIELD":
+            return {
+                ...state,
+                [action.payload.field]: action.payload.value,
+            };
+        case "SUBMIT_START":
+            return {
+                ...state,
+                loading: true,
+                error: null,
+            };
+        case "SUBMIT_SUCCESS":
+            return{
+                ...state,
+                loading: false,
+                error: null,
+            };
+        case "SUBMIT_FAILURE":
+            return{
+                ...state,
+                loading: false,
+                error: action.payload?.error || "Something error",
+            };
+        case "RESET":
+            return initialState;
+        default:
+            state;
+    }
+    
+}
+
+
 export default function Register() {
-    const [firstName, setFirstName] = useState("");
-    const [lastName, setLastName] = useState("");
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loading, setLoading] = useState(false);
+    const [state, localDisptach] = useReducer(reducer, initialState);
+    const { firstName, lastName, email, password, loading } = state;
     const navigate = useNavigate();
+
+    const handleChange = (field) => (e) => {
+        localDisptach({ type: "FIELD", payload: { field, value: e.target.value}})
+    }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        setLoading(true);
+        localDisptach({type: "SUBMIT_START"});
         try {
-           const {token, userId} = await register({firstName, lastName, email, password});
-           
+            await register({firstName, lastName, email, password});
+
+            localDisptach({type: "SUBMIT_SUCCESS"});
            // show success popup
            toast.success("🎉 Registration successful! Please login.", {
              position: "top-center",
@@ -32,12 +77,10 @@ export default function Register() {
         }
         catch (err) {
             console.error(err.message);
+            localDisptach({type: "SUBMIT_FAILURE", payload: { error: err.message}});
             toast.error("❌ Registration failed! Try again.", {
               position: "top-center",
             });
-        }
-        finally{
-            setLoading(false);
         }
     }
 
@@ -52,7 +95,7 @@ export default function Register() {
                             type="text"
                             placeholder="Enter first name"
                             value={firstName}
-                            onChange={(e) => setFirstName(e.target.value)}
+                            onChange={handleChange("firstName")}
                             required
                         />
                     </div>
@@ -62,7 +105,7 @@ export default function Register() {
                             type="text"
                             placeholder="Enter last name"
                             value={lastName}
-                            onChange={(e) => setLastName(e.target.value)}
+                            onChange={handleChange("lastName")}
                             required
                         />
                     </div>
@@ -72,7 +115,7 @@ export default function Register() {
                             type="email"
                             placeholder="Email"
                             value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            onChange={handleChange("email")}
                             required
                         />
                     </div>
@@ -82,7 +125,7 @@ export default function Register() {
                             type="password"
                             placeholder="Password"
                             value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            onChange={handleChange("password")}
                             required
                         />
                     </div>
