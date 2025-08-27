@@ -1,0 +1,136 @@
+/* Container with no outer vertical margin for flush layout */
+.users-container {
+  padding: 15px !important;
+  max-width: 950px;
+  margin: 0 auto;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 32px rgba(60, 30, 100, 0.08);
+  padding: 2rem;
+  display: flex;
+  flex-direction: column;
+  height: 560px; /* Set table container height for scrolling */
+}
+
+/* Header with space between */
+.users-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+/* Header title styling */
+.users-header h2 {
+  font-size: 1.3rem;
+  font-weight: 600;
+  color: #21293a;
+}
+
+.user-count {
+  background: #ecf0f3;
+  color: #4f7397;
+  border-radius: 10px;
+  font-size: 0.97rem;
+  font-weight: 500;
+  padding: 4px 10px;
+  margin-left: 10px;
+}
+
+/* Add button */
+.invite-btn {
+  background: #4f7397;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 8px 22px;
+  font-weight: 500;
+  font-size: 1rem;
+  box-shadow: 0 2px 8px rgba(79,115,151,0.15);
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.invite-btn:hover {
+  background: #335272;
+}
+
+/* Scroll container */
+.table-scroll {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: auto; /* Horizontal scroll if needed */
+  margin-top: 16px;
+}
+
+/* Table full width and border collapse */
+.users-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: #fff;
+}
+
+/* Fixed header */
+.users-table thead th {
+  position: sticky;
+  top: 0;
+  background: #f5f6fa;
+  box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.1);
+  z-index: 10;
+}
+
+/* Table header and cell styles */
+.users-table th,
+.users-table td {
+  padding: 12px 10px;
+  border-bottom: 1px solid #eee;
+  text-align: left;
+  font-size: 1rem;
+  color: #21293a;
+}
+
+/* Name column with avatar and text */
+.user-info {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  margin-right: 10px;
+  background: #7faad7;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 1rem;
+  object-fit: cover;
+}
+
+.avatar-fallback {
+  background: #dbdbe3;
+}
+
+.user-name {
+  font-weight: 600;
+  color: #192c47;
+}
+
+/* Actions select dropdown */
+.actions-select {
+  border: none;
+  border-radius: 6px;
+  padding: 6px 10px;
+  background: #f5f6fa;
+  font-size: 1rem;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.2s;
+}
+
+.actions-select:hover,
+.actions-select:focus {
+  background: #e0e3e7;
+}

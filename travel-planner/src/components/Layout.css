@@ -27,7 +27,7 @@
 /* Main should adjust based on sidebar state */
 .main {
   flex: 1;
-  padding: 2rem;
+  padding: 15px;
   background: #f9f9f9;
   min-height: 100vh;
   transition: margin-left 0.3s ease;

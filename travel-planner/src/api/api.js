@@ -7,24 +7,31 @@ const api = axios.create({
     },
 });
 
-// Add request interceptor (attach JWT token)
 api.interceptors.request.use(
     (config) => {
-        const token = localStorage.getItem("token");
-        if (token) {
-            config.headers.Authorization = `Bearer ${token}`;
+        let auth = null;
+        try {
+            auth =
+                JSON.parse(localStorage.getItem("auth")) ||
+                JSON.parse(sessionStorage.getItem("auth"));
+        } catch (err) {
+            console.error("Invalid auth data in storage", err);
+            auth = null;
         }
+
+        if (auth?.token) {
+            config.headers.Authorization = `Bearer ${auth.token}`;
+        }
+
         return config;
     },
     (error) => Promise.reject(error)
 );
 
-// Add response interceptor (handles error globally)
 api.interceptors.response.use(
     (response) => response,
     (error) => {
         if (error.response && error.response.status === 401) {
-            // Token expired or unauthorized
             console.error("Unauthorized! Redirecting to login...");
             window.location.href = "/login";
         }

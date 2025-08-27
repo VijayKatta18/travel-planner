@@ -36,15 +36,15 @@ export default function Sidebar({ isOpen, setIsOpen }) {
                     </Link>
                 </li>
                 <li>
-                    <Link to="/profile">
-                        <FaUser className="icon" />
-                        {isOpen && <span>Profile</span>}
-                    </Link>
-                </li>
-                <li>
                     <Link to="/users">
                         <FaUsers className="icon" />
                         {isOpen && <span>Users</span>}
+                    </Link>
+                </li>
+                 <li>
+                    <Link to="/profile">
+                        <FaUser className="icon" />
+                        {isOpen && <span>Profile</span>}
                     </Link>
                 </li>
                 <li>
