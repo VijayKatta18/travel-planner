@@ -25,6 +25,13 @@ namespace services.Controllers
             return CreatedAtAction(nameof(GetMine), new { id = res.Id }, res);
         }
 
+        [HttpGet("{id}")]
+        public async Task<ActionResult<User>> Get(int id)
+        {
+            var result = await user.GetUserById(id);
+            return Ok(result);
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> Update(int id, User dto)
         {

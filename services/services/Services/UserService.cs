@@ -68,5 +68,9 @@ namespace services.Services
             return newUserId;
         }
 
+        public async Task<User> GetUserById(int id)
+        {
+            return await repo.GetByIdAsync(id);
+        }
     }
 }

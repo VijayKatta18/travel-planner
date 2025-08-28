@@ -16,7 +16,10 @@ namespace services.Repositories
             return user;
         }
 
-        public Task<User?> GetByIdAsync(int id) => db.Users.FindAsync(id).AsTask();
+        public async Task<User> GetByIdAsync(int id)
+        {
+            return (await db.Users.FindAsync(id))!;
+        }
 
         public Task<List<User>> GetMyUsersAsync()
         {

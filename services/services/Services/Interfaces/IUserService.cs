@@ -8,5 +8,6 @@ namespace services.Services.Interfaces
         Task<User> AddAsync(User user);
         Task UpdateAsync(int userId, User user);
         Task DeleteAsync(int id);
+        Task<User> GetUserById(int id);
     }
 }
