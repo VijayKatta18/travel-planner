@@ -1,10 +1,12 @@
 import React, { useEffect, useReducer, useState } from 'react';
-import { addUser, deleteUser, getUser, getUsers } from '../services/userService';
+import { addUser, deleteUser, getUser, getUsers, updateUser } from '../services/userService';
 import { FaEdit, FaEye, FaTrash, FaUser } from 'react-icons/fa';
 import "./Users.css";
 
 
 const initialState = {
+  id: null,
+  userId: "",
   firstName: "",
   lastName: "",
   email: "",
@@ -31,7 +33,7 @@ export default function Users() {
 
   // use reducer
   const [state, localDispatch] = useReducer(reducer, initialState);
-  const { firstName, lastName, email, password } = state;
+  const { id, userId, firstName, lastName, email, password } = state;
 
   const [showModal, setShowModal] = useState(false);
   const [addUserData, setAddUserData] = useState(false);
@@ -70,7 +72,6 @@ export default function Users() {
       localDispatch({ type: "FIELD", payload: { field: "firstName", value: res.firstName } });
       localDispatch({ type: "FIELD", payload: { field: "lastName", value: res.lastName } });
       localDispatch({ type: "FIELD", payload: { field: "email", value: res.email } });
-      // don't set password in view mode for security reasons
     }
   }
 
@@ -82,10 +83,11 @@ export default function Users() {
     var res = await getUser(id);
 
     if (res) {
+      localDispatch({ type: "FIELD", payload: { field: "id", value: res.id } });
+      localDispatch({ type: "FIELD", payload: { field: "userId", value: res.userId } });
       localDispatch({ type: "FIELD", payload: { field: "firstName", value: res.firstName } });
       localDispatch({ type: "FIELD", payload: { field: "lastName", value: res.lastName } });
       localDispatch({ type: "FIELD", payload: { field: "email", value: res.email } });
-      // don't set password in view mode for security reasons
     }
 
   }
@@ -103,7 +105,13 @@ export default function Users() {
     e.preventDefault();
     setLoading(true);
     try {
-      await addUser(state);
+      if (addUserData) {
+        const payload = { ...state, userId: "test" };
+        await addUser(payload);
+      } else if (editData) {
+        await updateUser(state.id, state);
+      }
+
       const res = await getUsers();
       setUsers(res);
       closeModal();
@@ -112,7 +120,6 @@ export default function Users() {
     } finally {
       setLoading(false);
     }
-
   }
 
   const deleteData = async (id) => {
@@ -223,7 +230,7 @@ export default function Users() {
                 required
               />}
               <div className="modal-actions">
-                { !viewData && <button type="submit" className="save-btn">Save</button> }
+                {!viewData && <button type="submit" className="save-btn">Save</button>}
                 <button type="button" className="cancel-btn" onClick={closeModal}>Cancel</button>
               </div>
             </div>
