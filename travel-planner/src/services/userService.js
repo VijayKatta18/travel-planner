@@ -14,7 +14,14 @@ export const addUser = async (data) => {
     return response.data;
 }
 
+// delete user
 export const deleteUser = async (id) => {
     const response = await api.delete(`/users/${id}`);
     return response.data;
 }
+
+export const getUser = async (id) => {
+    const response = await api.get(`/users/${id}`);
+    return response.data;
+}
+
