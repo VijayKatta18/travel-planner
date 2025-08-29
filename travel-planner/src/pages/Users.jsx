@@ -1,4 +1,4 @@
-import React, { useEffect, useReducer, useState } from 'react';
+import React, { useEffect, useMemo, useReducer, useRef, useState } from 'react';
 import { addUser, deleteUser, getUser, getUsers, updateUser } from '../services/userService';
 import { FaEdit, FaEye, FaTrash, FaUser } from 'react-icons/fa';
 import "./Users.css";
@@ -39,6 +39,30 @@ export default function Users() {
   const [addUserData, setAddUserData] = useState(false);
   const [viewData, setViewData] = useState(false);
   const [editData, setEditData] = useState(false);
+
+  const isMounted = useRef(true);
+  const firstInputRef = useRef(null);
+  const [search, setSearch] = useState("");
+
+  // clean up on unmount
+  useEffect(() => {
+    return () => { isMounted.current = false };
+  }, []);
+
+  // auto focus on first name when modal open
+  useEffect(() => {
+    if (showModal && firstInputRef.current) {
+      firstInputRef.current.focus();
+    }
+  }, [showModal]);
+
+  const filteredUsers = useMemo(() => {
+    return users.filter((u) =>
+      u.firstName.toLowerCase().includes(search.toLowerCase()) ||
+      u.lastName.toLowerCase().includes(search.toLowerCase()) ||
+      u.email.toLowerCase().includes(search.toLowerCase())
+    );
+  }, [users, search]);
 
   useEffect(() => {
     const fetchUsers = async () => {
@@ -134,7 +158,17 @@ export default function Users() {
         <h2>
           Team <span className="user-count">{users.length} users</span>
         </h2>
-        <button className="invite-btn" onClick={openAddModal}>+ Add</button>
+
+        <div className="actions-right">
+          <input
+            type="text"
+            className="search-input"
+            placeholder="Search users..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          <button className="invite-btn" onClick={openAddModal}>+ Add</button>
+        </div>
       </div>
 
       {loading ? (
@@ -154,7 +188,7 @@ export default function Users() {
               </tr>
             </thead>
             <tbody>
-              {users.map(u => (
+              {filteredUsers.map(u => (
                 <tr key={u.id}>
                   <td><input type="checkbox" /></td>
                   <td>{u.userId}</td>
@@ -197,6 +231,7 @@ export default function Users() {
               <input
                 type="text"
                 name="firstName"
+                ref={firstInputRef}
                 placeholder="First Name"
                 value={firstName}
                 onChange={handleChange("firstName")}

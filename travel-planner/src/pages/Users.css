@@ -8,7 +8,8 @@
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  height: 560px; /* Set table container height for scrolling */
+  height: 560px;
+  /* Set table container height for scrolling */
 }
 
 /* Header with space between */
@@ -35,6 +36,30 @@
   margin-left: 10px;
 }
 
+/* Right-side wrapper for search + button */
+.actions-right {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+/* Search input styling */
+.search-input {
+  padding: 8px 12px;
+  border: 1px solid #d0d7de;
+  border-radius: 6px;
+  font-size: 0.95rem;
+  outline: none;
+  min-width: 200px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.search-input:focus {
+  border-color: #4f7397;
+  box-shadow: 0 0 0 3px rgba(79, 115, 151, 0.2);
+}
+
+
 /* Add button */
 .invite-btn {
   background: #4f7397;
@@ -44,7 +69,7 @@
   padding: 8px 22px;
   font-weight: 500;
   font-size: 1rem;
-  box-shadow: 0 2px 8px rgba(79,115,151,0.15);
+  box-shadow: 0 2px 8px rgba(79, 115, 151, 0.15);
   cursor: pointer;
   transition: background 0.2s;
 }
@@ -57,7 +82,8 @@
 .table-scroll {
   flex: 1;
   overflow-y: auto;
-  overflow-x: auto; /* Horizontal scroll if needed */
+  overflow-x: auto;
+  /* Horizontal scroll if needed */
   margin-top: 16px;
 }
 
@@ -156,8 +182,13 @@
 }
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 
@@ -183,7 +214,7 @@
   border-radius: 12px;
   width: 400px;
   max-width: 95%;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   display: flex;
   flex-direction: column;
   gap: 12px;
@@ -202,6 +233,7 @@
   font-size: 14px;
   outline: none;
 }
+
 .modal input:focus {
   border-color: #4f7397;
 }
@@ -223,6 +255,7 @@
   cursor: pointer;
   transition: background 0.2s;
 }
+
 .save-btn:hover {
   background: #4f7397;
 }
@@ -234,6 +267,7 @@
   border-radius: 6px;
   cursor: pointer;
 }
+
 .cancel-btn:hover {
   background: #ddd;
 }
@@ -261,6 +295,7 @@
   background: #e8f5e9;
   color: #388e3c;
 }
+
 .view-btn:hover {
   background: #c8e6c9;
 }
@@ -269,6 +304,7 @@
   background: #e3f2fd;
   color: #1976d2;
 }
+
 .edit-btn:hover {
   background: #bbdefb;
 }
@@ -277,9 +313,7 @@
   background: #ffebee;
   color: #d32f2f;
 }
+
 .delete-btn:hover {
   background: #ffcdd2;
 }
-
-
-
