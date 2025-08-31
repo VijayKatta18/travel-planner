@@ -4,12 +4,12 @@ import Layout from './components/Layout'
 import Home from './pages/Home';
 import About from './pages/About';
 import Trips from './pages/Trips';
-import Login from './pages/Login';
 import TripDetails from './pages/TripDetails';
 import Profile from './components/Profile';
 import ProtectedRoute from './components/ProtectedRoute';
-import Register from './pages/Register';
 import Users from './pages/Users';
+import Login from './pages/Login';
+import Register from './pages/Register';
 
 function App() {
   return (
