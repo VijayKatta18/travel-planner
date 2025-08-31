@@ -26,12 +26,12 @@ export default function Login() {
       dispatch(loginSuccess({ token, userId, rememberMe }));
       toast.success("🎉 Login successful!",{
         position: "top-center",
-        autoClose: 1000
+        autoClose: 2000
       })
 
       setTimeout(() => {
         navigate(redirectTo, { replace: true });
-      }, 1100);
+      }, 2100);
       
     }
     catch (err) {

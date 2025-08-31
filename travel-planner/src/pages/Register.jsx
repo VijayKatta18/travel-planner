@@ -14,8 +14,8 @@ const initialState = {
     error: null,
 };
 
-function reducer(state, action){
-    switch(action.type){
+function reducer(state, action) {
+    switch (action.type) {
         case "FIELD":
             return {
                 ...state,
@@ -28,13 +28,13 @@ function reducer(state, action){
                 error: null,
             };
         case "SUBMIT_SUCCESS":
-            return{
+            return {
                 ...state,
                 loading: false,
                 error: null,
             };
         case "SUBMIT_FAILURE":
-            return{
+            return {
                 ...state,
                 loading: false,
                 error: action.payload?.error || "Something error",
@@ -44,7 +44,7 @@ function reducer(state, action){
         default:
             state;
     }
-    
+
 }
 
 
@@ -54,32 +54,32 @@ export default function Register() {
     const navigate = useNavigate();
 
     const handleChange = (field) => (e) => {
-        localDisptach({ type: "FIELD", payload: { field, value: e.target.value}})
+        localDisptach({ type: "FIELD", payload: { field, value: e.target.value } })
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        localDisptach({type: "SUBMIT_START"});
+        localDisptach({ type: "SUBMIT_START" });
         try {
-            await register({firstName, lastName, email, password});
+            await register({ firstName, lastName, email, password });
 
-            localDisptach({type: "SUBMIT_SUCCESS"});
-           // show success popup
-           toast.success("🎉 Registration successful! Please login.", {
-             position: "top-center",
-             autoClose: 2000
-           });
+            localDisptach({ type: "SUBMIT_SUCCESS" });
+            // show success popup
+            toast.success("🎉 Registration successful! Please login.", {
+                position: "top-center",
+                autoClose: 2000
+            });
 
-           // redirect after a short delay
-           setTimeout(() => {
-             navigate("/login", { replace: true });
-           }, 2100);
+            // redirect after a short delay
+            setTimeout(() => {
+                navigate("/login", { replace: true });
+            }, 2100);
         }
         catch (err) {
             console.error(err.message);
-            localDisptach({type: "SUBMIT_FAILURE", payload: { error: err.message}});
+            localDisptach({ type: "SUBMIT_FAILURE", payload: { error: err.message } });
             toast.error("❌ Registration failed! Try again.", {
-              position: "top-center",
+                position: "top-center",
             });
         }
     }
@@ -130,7 +130,7 @@ export default function Register() {
                         />
                     </div>
                     <button type="submit" className="login-btn">
-                       {loading ? ( <FaSpinner className="spinner" /> ) : ( "Register" ) }  
+                        {loading ? (<FaSpinner className="spinner" />) : ("Register")}
                     </button>
                     <div className="signup-link">
                         Member? <Link to="/login">Login</Link>
