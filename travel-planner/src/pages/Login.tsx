@@ -1,11 +1,12 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { login } from "../services/authService";
+import { googleLogin, login } from "../services/authService";
 import { useDispatch } from "react-redux";
 import { loginSuccess } from "../store/authSlice";
 import "./Login.css";
 import { FaSpinner } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
+import { GoogleLogin } from "@react-oauth/google"; // ✅ NEW: import Google login button
 
 // Login Reponse type 
 interface LoginResponse {
@@ -30,22 +31,23 @@ export default function Login() {
 
   const redirectTo = (location.state as LocationState)?.from || "/";
 
+  // ----------------------
+  // Existing Email/Password Login
+  // ----------------------
   const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
       const { token, userId }: LoginResponse = await login({ email, password });
-      // redux "pass info to store using defined function in store"
       dispatch(loginSuccess({ token, userId, rememberMe }));
       toast.success("🎉 Login successful!", {
         position: "top-center",
         autoClose: 2000
-      })
+      });
 
       setTimeout(() => {
         navigate(redirectTo, { replace: true });
       }, 2100);
-
     }
     catch (err: unknown) {
       if (err instanceof Error) {
@@ -55,6 +57,27 @@ export default function Login() {
     }
     finally {
       setLoading(false);
+    }
+  };
+
+  // ----------------------
+  // ✅ NEW: Google Login Handler
+  // ----------------------
+  const handleGoogleLogin = async (credential: string) => {
+    try {
+      const { token, userId }: LoginResponse = await googleLogin(credential);
+      dispatch(loginSuccess({ token, userId, rememberMe: true }));
+      toast.success("🎉 Google Login successful!", {
+        position: "top-center",
+        autoClose: 2000
+      });
+
+      setTimeout(() => {
+        navigate(redirectTo, { replace: true });
+      }, 2100);
+    } catch (error: any) {
+      console.error(error);
+      toast.error("❌ Google Login failed");
     }
   };
 
@@ -107,9 +130,26 @@ export default function Login() {
           <button className="login-social facebook">
             <i className="fab fa-facebook-f"></i> Facebook
           </button>
-          <button className="login-social google">
-            <i className="fab fa-google"></i> Google
-          </button>
+
+          {/* ✅ NEW: Google Login Button */}
+          <GoogleLogin
+            onSuccess={(credentialResponse) => {
+              if (credentialResponse.credential) {
+                handleGoogleLogin(credentialResponse.credential);
+              } else {
+                toast.error("❌ No Google credential received", {
+                  position: "top-center",
+                  autoClose: 2000
+                });
+              }
+            }}
+            onError={() => {
+              toast.error("❌ Google Login failed", {
+                position: "top-center",
+                autoClose: 2000
+              });
+            }}
+          />
         </div>
         <div className="signup-link">
           Not a member? <Link to="/register">Register</Link>
