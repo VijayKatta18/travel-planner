@@ -19,3 +19,5 @@ obj/
 # Other temporary files
 *.log
 *.vsidx
+/services/services/appsettings.json
+/travel-planner/.env
