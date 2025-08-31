@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { ChangeEvent, FormEvent, useState } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { login } from "../services/authService";
 import { useDispatch } from "react-redux";
@@ -7,24 +7,37 @@ import "./Login.css";
 import { FaSpinner } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 
+// Login Reponse type 
+interface LoginResponse {
+  token: string;
+  userId: string;
+}
+
+// Define what comes from location.state
+interface LocationState {
+  from?: string;
+}
+
 export default function Login() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [rememberMe, setRememberMe] = useState(false);
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [rememberMe, setRememberMe] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+
   const navigate = useNavigate();
   const location = useLocation();
-  const redirectTo = location.state?.from || "/";
   const dispatch = useDispatch();
-  const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const redirectTo = (location.state as LocationState)?.from || "/";
+
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     try {
-      const { token, userId } = await login({ email, password });
+      const { token, userId }: LoginResponse = await login({ email, password });
       // redux "pass info to store using defined function in store"
       dispatch(loginSuccess({ token, userId, rememberMe }));
-      toast.success("🎉 Login successful!",{
+      toast.success("🎉 Login successful!", {
         position: "top-center",
         autoClose: 2000
       })
@@ -32,10 +45,13 @@ export default function Login() {
       setTimeout(() => {
         navigate(redirectTo, { replace: true });
       }, 2100);
-      
+
     }
-    catch (err) {
-      console.error(err.message);
+    catch (err: unknown) {
+      if (err instanceof Error) {
+        console.error(err.message);
+        toast.error("❌ Login failed: " + err.message);
+      }
     }
     finally {
       setLoading(false);
@@ -53,7 +69,7 @@ export default function Login() {
               type="email"
               placeholder="Email"
               value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setEmail(e.target.value)}
               required
             />
           </div>
@@ -63,7 +79,7 @@ export default function Login() {
               type="password"
               placeholder="Password"
               value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setPassword(e.target.value)}
               required
             />
           </div>
@@ -72,7 +88,7 @@ export default function Login() {
               type="checkbox"
               id="rememberMe"
               checked={rememberMe}
-              onChange={(e) => setRememberMe(e.target.checked)}
+              onChange={(e: ChangeEvent<HTMLInputElement>) => setRememberMe(e.target.checked)}
             />
             <label htmlFor="rememberMe">Remember me</label>
           </div>
