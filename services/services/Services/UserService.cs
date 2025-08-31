@@ -75,5 +75,10 @@ namespace services.Services
         {
             return await repo.GetByIdAsync(id);
         }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await repo.GetUserByEmail(email);
+        }
     }
 }

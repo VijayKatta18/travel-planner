@@ -39,5 +39,10 @@ namespace services.Repositories
             db.Users.Remove(existing);
             await db.SaveChangesAsync();
         }
+
+        public async Task<User> GetUserByEmail(string email)
+        {
+            return await db.Users.FirstOrDefaultAsync(e => e.Email == email);
+        }
     }
 }

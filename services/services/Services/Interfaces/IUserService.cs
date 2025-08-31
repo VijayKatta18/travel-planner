@@ -9,5 +9,6 @@ namespace services.Services.Interfaces
         Task UpdateAsync(int userId, User user);
         Task DeleteAsync(int id);
         Task<User> GetUserById(int id);
+        Task<User> GetUserByEmail(string email);
     }
 }

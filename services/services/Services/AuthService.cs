@@ -99,5 +99,9 @@ namespace services.Services
             };
         }
 
+        public AuthResponse GenerateJwt(User user)
+        {
+            return GenerateToken(user, cfg);
+        }
     }
 }
